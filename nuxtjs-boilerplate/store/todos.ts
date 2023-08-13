@@ -1,20 +1,16 @@
 import { ActionContext } from 'vuex'
 
 // ///////////// enum ///////////////////////////////////
-export enum status {
+export enum IStatus {
   do = 'DO',
   undo = 'UNDO',
 }
 
 // ////////////////// type of object ///////////////////
 export interface ITodo {
-  status: status
+  status: IStatus
   id: string
   text: string
-}
-
-export interface IStatusTodos {
-  status: status
 }
 
 export interface ITodoState {
@@ -45,10 +41,10 @@ const actions = {
   },
   updateTodoStatus: (
     ctx: ActionContext<ITodoState, IRootState>,
-    payload: { id: string; newStatus: status }
+    payload: { id: string; newStatus: IStatus }
   ) => {
     const { commit } = ctx
-    commit('UPDATE_TODO_STATUS', payload)
+    commit('UPDATE_TODOS', payload)
   },
 }
 
@@ -59,10 +55,7 @@ const mutations = {
   DELETE_TODO(state: ITodoState, id: string) {
     state.todos = state.todos.filter((todo) => todo.id !== id)
   },
-  UPDATE_TODO_STATUS(
-    state: ITodoState,
-    payload: { id: string; newStatus: status }
-  ) {
+  UPDATE_TODOS(state: ITodoState, payload: { id: string; newStatus: IStatus }) {
     const todoToUpdate = state.todos.find((todo) => todo.id === payload.id)
     if (todoToUpdate) {
       todoToUpdate.status = payload.newStatus
